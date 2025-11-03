@@ -1,0 +1,70 @@
+<html>
+<head>
+<title>test_widget.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #6aab73;}
+.s4 { color: #5f826b; font-style: italic;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+test_widget.py</font>
+</center></td></tr></table>
+<pre><span class="s0">import </span><span class="s1">pytest</span>
+<span class="s0">import </span><span class="s1">sys</span>
+<span class="s0">import </span><span class="s1">os</span>
+
+<span class="s1">sys</span><span class="s2">.</span><span class="s1">path</span><span class="s2">.</span><span class="s1">append</span><span class="s2">(</span><span class="s1">os</span><span class="s2">.</span><span class="s1">path</span><span class="s2">.</span><span class="s1">join</span><span class="s2">(</span><span class="s1">os</span><span class="s2">.</span><span class="s1">path</span><span class="s2">.</span><span class="s1">dirname</span><span class="s2">(</span><span class="s1">__file__</span><span class="s2">), </span><span class="s3">'..'</span><span class="s2">))</span>
+
+<span class="s0">from </span><span class="s1">src</span><span class="s2">.</span><span class="s1">widget </span><span class="s0">import </span><span class="s1">mask_account_card</span><span class="s2">, </span><span class="s1">get_date</span>
+
+
+<span class="s0">class </span><span class="s1">TestWidget</span><span class="s2">:</span>
+    <span class="s4">&quot;&quot;&quot;Тесты для модуля widget&quot;&quot;&quot;</span>
+
+    <span class="s2">@</span><span class="s1">pytest</span><span class="s2">.</span><span class="s1">mark</span><span class="s2">.</span><span class="s1">parametrize</span><span class="s2">(</span><span class="s3">&quot;input_data, expected&quot;</span><span class="s2">, [</span>
+        <span class="s2">(</span><span class="s3">&quot;Visa Platinum 7000792289606361&quot;</span><span class="s2">, </span><span class="s3">&quot;Visa Platinum 7000 79** **** 6361&quot;</span><span class="s2">),</span>
+        <span class="s2">(</span><span class="s3">&quot;Maestro 1596837868705199&quot;</span><span class="s2">, </span><span class="s3">&quot;Maestro 1596 83** **** 5199&quot;</span><span class="s2">),</span>
+        <span class="s2">(</span><span class="s3">&quot;MasterCard 7158300734726758&quot;</span><span class="s2">, </span><span class="s3">&quot;MasterCard 7158 30** **** 6758&quot;</span><span class="s2">),</span>
+    <span class="s2">])</span>
+    <span class="s0">def </span><span class="s1">test_mask_account_card_cards</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">input_data</span><span class="s2">, </span><span class="s1">expected</span><span class="s2">):</span>
+        <span class="s4">&quot;&quot;&quot;Тестирование маскировки карт&quot;&quot;&quot;</span>
+        <span class="s0">assert </span><span class="s1">mask_account_card</span><span class="s2">(</span><span class="s1">input_data</span><span class="s2">) == </span><span class="s1">expected</span>
+
+    <span class="s2">@</span><span class="s1">pytest</span><span class="s2">.</span><span class="s1">mark</span><span class="s2">.</span><span class="s1">parametrize</span><span class="s2">(</span><span class="s3">&quot;input_data, expected&quot;</span><span class="s2">, [</span>
+        <span class="s2">(</span><span class="s3">&quot;Счет 73654108430135874305&quot;</span><span class="s2">, </span><span class="s3">&quot;Счет **4305&quot;</span><span class="s2">),</span>
+        <span class="s2">(</span><span class="s3">&quot;Счет 64686473678894779589&quot;</span><span class="s2">, </span><span class="s3">&quot;Счет **9589&quot;</span><span class="s2">),</span>
+        <span class="s2">(</span><span class="s3">&quot;Счет 35383033474447895560&quot;</span><span class="s2">, </span><span class="s3">&quot;Счет **5560&quot;</span><span class="s2">),</span>
+    <span class="s2">])</span>
+    <span class="s0">def </span><span class="s1">test_mask_account_card_accounts</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">input_data</span><span class="s2">, </span><span class="s1">expected</span><span class="s2">):</span>
+        <span class="s4">&quot;&quot;&quot;Тестирование маскировки счетов&quot;&quot;&quot;</span>
+        <span class="s0">assert </span><span class="s1">mask_account_card</span><span class="s2">(</span><span class="s1">input_data</span><span class="s2">) == </span><span class="s1">expected</span>
+
+    <span class="s0">def </span><span class="s1">test_mask_account_card_empty</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s4">&quot;&quot;&quot;Тестирование маскировки пустой строки&quot;&quot;&quot;</span>
+        <span class="s0">assert </span><span class="s1">mask_account_card</span><span class="s2">(</span><span class="s3">&quot;&quot;</span><span class="s2">) == </span><span class="s3">&quot;&quot;</span>
+
+    <span class="s0">def </span><span class="s1">test_mask_account_card_invalid</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s4">&quot;&quot;&quot;Тестирование маскировки некорректных данных&quot;&quot;&quot;</span>
+        <span class="s0">assert </span><span class="s1">mask_account_card</span><span class="s2">(</span><span class="s3">&quot;Just Text&quot;</span><span class="s2">) == </span><span class="s3">&quot;Just Text&quot;</span>
+
+    <span class="s2">@</span><span class="s1">pytest</span><span class="s2">.</span><span class="s1">mark</span><span class="s2">.</span><span class="s1">parametrize</span><span class="s2">(</span><span class="s3">&quot;date_string, expected&quot;</span><span class="s2">, [</span>
+        <span class="s2">(</span><span class="s3">&quot;2024-03-11T02:26:18.671407&quot;</span><span class="s2">, </span><span class="s3">&quot;11.03.2024&quot;</span><span class="s2">),</span>
+        <span class="s2">(</span><span class="s3">&quot;2023-12-31T23:59:59.999999&quot;</span><span class="s2">, </span><span class="s3">&quot;31.12.2023&quot;</span><span class="s2">),</span>
+        <span class="s2">(</span><span class="s3">&quot;2020-01-01T00:00:00.000000&quot;</span><span class="s2">, </span><span class="s3">&quot;01.01.2020&quot;</span><span class="s2">),</span>
+    <span class="s2">])</span>
+    <span class="s0">def </span><span class="s1">test_get_date_valid</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">date_string</span><span class="s2">, </span><span class="s1">expected</span><span class="s2">):</span>
+        <span class="s4">&quot;&quot;&quot;Тестирование преобразования валидных дат&quot;&quot;&quot;</span>
+        <span class="s0">assert </span><span class="s1">get_date</span><span class="s2">(</span><span class="s1">date_string</span><span class="s2">) == </span><span class="s1">expected</span>
+
+    <span class="s0">def </span><span class="s1">test_get_date_short_string</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s4">&quot;&quot;&quot;Тестирование преобразования короткой строки&quot;&quot;&quot;</span>
+        <span class="s0">assert </span><span class="s1">get_date</span><span class="s2">(</span><span class="s3">&quot;2024-03-11&quot;</span><span class="s2">) == </span><span class="s3">&quot;11.03.2024&quot;</span></pre>
+</body>
+</html>
